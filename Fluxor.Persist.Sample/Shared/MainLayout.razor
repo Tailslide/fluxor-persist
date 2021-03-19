@@ -19,10 +19,10 @@
     {
         base.OnInitialized();
         Dispatcher.Dispatch(new InitializePersistMiddlewareAction() { StorageService = new LocalStateStorage(this.localStorage), RehydrateStatesFromStorage = true });
-        this.SubscribeToAction<PersistMiddlewareRehydratedAction>(result =>
+        this.SubscribeToAction<InitializePersistMiddlewareResultSuccessAction>(result =>
         {
             Console.WriteLine($"**** State rehydrated**");
             this.StateHasChanged();// we now have state, we can re-render to reflect binding changes
-        });
+        }); ;
     }
 }
