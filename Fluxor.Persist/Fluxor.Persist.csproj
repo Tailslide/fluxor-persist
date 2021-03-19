@@ -3,14 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Description>Persists fluxor packages</Description>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Authors>Greg Pringle</Authors>
     <Company>Firelight Software, Inc.</Company>
     <Product />
     <PackageProjectUrl>https://github.com/Tailslide/fluxor-persist</PackageProjectUrl>
     <PackageIcon>FancyP.jpg</PackageIcon>
-    <PackageIconUrl />
+    <PackageIconUrl>https://raw.githubusercontent.com/Tailslide/fluxor-persist/master/Fluxor.Persist/Icons/FancyP.jpg</PackageIconUrl>
     <RepositoryUrl>https://github.com/Tailslide/fluxor-persist</RepositoryUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
   </PropertyGroup>
 
   <ItemGroup>
