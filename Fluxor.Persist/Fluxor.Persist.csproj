@@ -1,15 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Description>Persists fluxor packages</Description>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>Greg Pringle</Authors>
     <Company>Firelight Software, Inc.</Company>
     <Product />
     <PackageProjectUrl>https://github.com/Tailslide/fluxor-persist</PackageProjectUrl>
-    <PackageIcon>FancyP.jpg</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/Tailslide/fluxor-persist/master/Fluxor.Persist/Icons/FancyP.jpg</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Tailslide/fluxor-persist/master/Fluxor.Persist/Icons/FancyP.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Tailslide/fluxor-persist</RepositoryUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
