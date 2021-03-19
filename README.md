@@ -28,7 +28,7 @@ To add Fluxor-persist to your existing blazor fluxor application you want to:
 
 You can detect that state has been rehydrated from storage. I use this in my MainLayout which inherits from FluxorLayout. In `OnInitialized` after I intialize the middleware to detect state restore and force a refresh:
 
-```
+```C#
         Dispatcher.Dispatch(new InitializePersistMiddlewareAction() { StorageService = new LocalStateStorage(this.localStorage), RehydrateStatesFromStorage = true });
         this.SubscribeToAction<InitializePersistMiddlewareResultSuccessAction>(result =>
         {
