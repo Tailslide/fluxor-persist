@@ -3,7 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Description>Persists fluxor packages</Description>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
+    <Authors>Greg Pringle</Authors>
+    <Company>Firelight Software, Inc.</Company>
+    <Product />
+    <PackageProjectUrl>https://github.com/Tailslide/fluxor-persist</PackageProjectUrl>
+    <PackageIcon>FancyP.jpg</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/Tailslide/fluxor-persist</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +23,10 @@
 
   <ItemGroup>
     <None Remove="Component1.razor.css" />
+    <None Include="Icons\FancyP.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   
