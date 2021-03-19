@@ -8,6 +8,11 @@ Persisting states is a pretty common task .. in react I use [redux-persist](http
 
 ## Getting Started
 
+### Installation
+You can download the latest release / pre-release NuGet packages from the official Fluxor-persist nuget pages.
+
+* [Fluxor.Persist](https://www.nuget.org/packages/Fluxor.Persist/) [![NuGet version (Fluxor.Persist)](https://img.shields.io/nuget/v/Fluxor.Persist.svg?style=flat-square)](https://www.nuget.org/packages/Fluxor.Persist/)
+
 ### Setup
 
 The easiest way to get started is to look at the sample blazor app here(https://github.com/Tailslide/fluxor-persist)
@@ -69,3 +74,13 @@ namespace Fluxor.Persist.Sample.Storage
     }
 }
 ```
+
+
+### Advanced Usage - BlackList, WhiteList
+
+You can blacklist or whitelist state names to indicate if they should be persisted. Use only a blacklist or a whitelist not both.
+Regardless of settings, the states @routing and PersistMiddleware are never persisted.
+
+Example: `.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
+
+
