@@ -74,3 +74,13 @@ namespace Fluxor.Persist.Sample.Storage
     }
 }
 ```
+
+
+### Advanced Usage - BlackList, WhiteList
+
+You can blacklist or whitelist state names to indicate if they should be persisted. Use only a blacklist or a whitelist not both.
+Regardless of settings, the states @routing and PersistMiddleware are never persisted.
+
+Example: `.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
+
+
