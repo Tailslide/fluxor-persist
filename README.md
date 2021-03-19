@@ -12,7 +12,7 @@ Persisting states is a pretty common task .. in react I use [redux-persist](http
 You can download the latest release / pre-release NuGet packages from the official Fluxor-persist nuget pages.
 
 * [Fluxor.Persist](https://www.nuget.org/packages/Fluxor.Persist/) [![NuGet version (Fluxor.Persist)](https://img.shields.io/nuget/v/Fluxor.Persist.svg?style=flat-square)](https://www.nuget.org/packages/Fluxor.Persist/)
-* 
+
 ### Setup
 
 The easiest way to get started is to look at the sample blazor app here(https://github.com/Tailslide/fluxor-persist)
