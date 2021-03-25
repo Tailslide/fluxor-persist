@@ -84,7 +84,7 @@ Regardless of settings, the states @routing and PersistMiddleware are never pers
 Example: `.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
 
 
-### Advanced Usage - Persist only some states properties
+### Advanced Usage - Persist only some state properties
 
 You can attribute your state records so that certain fields do not get serialized.
 To not persist a 'isloading' flag for example:
