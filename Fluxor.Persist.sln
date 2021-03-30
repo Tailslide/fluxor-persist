@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.31025.218
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxor.Persist", "Fluxor.Persist\Fluxor.Persist.csproj", "{4936C173-7AFC-4B03-BE4F-8C9A9F11C67B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxor.Persist.Sample", "Fluxor.Persist.Sample\Fluxor.Persist.Sample.csproj", "{295B4819-DCA7-4EF4-8CCA-FD513CD78FB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxor.Persist.Sample.Wasm", "Fluxor.Persist.Sample.Wasm\Fluxor.Persist.Sample.Wasm.csproj", "{295B4819-DCA7-4EF4-8CCA-FD513CD78FB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxor.Persist.Sample.Server.Json", "Fluxor.Persist.Sample.Server.Json\Fluxor.Persist.Sample.Server.Json.csproj", "{F681C902-2895-4446-86EB-C8676F61F7C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxor.Persist.Sample.Shared", "Fluxor.Persist.Sample.Shared\Fluxor.Persist.Sample.Shared.csproj", "{CFD551B9-0B19-4E5C-AE1D-233E0BA3B82F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxor.Persist.Sample.Server.State", "Fluxor.Persist.Sample.Server.State\Fluxor.Persist.Sample.Server.State.csproj", "{76589E92-CF13-45EA-9F88-5B6E134B4A0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{295B4819-DCA7-4EF4-8CCA-FD513CD78FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{295B4819-DCA7-4EF4-8CCA-FD513CD78FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{295B4819-DCA7-4EF4-8CCA-FD513CD78FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F681C902-2895-4446-86EB-C8676F61F7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F681C902-2895-4446-86EB-C8676F61F7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F681C902-2895-4446-86EB-C8676F61F7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F681C902-2895-4446-86EB-C8676F61F7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD551B9-0B19-4E5C-AE1D-233E0BA3B82F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD551B9-0B19-4E5C-AE1D-233E0BA3B82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD551B9-0B19-4E5C-AE1D-233E0BA3B82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD551B9-0B19-4E5C-AE1D-233E0BA3B82F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76589E92-CF13-45EA-9F88-5B6E134B4A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76589E92-CF13-45EA-9F88-5B6E134B4A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76589E92-CF13-45EA-9F88-5B6E134B4A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76589E92-CF13-45EA-9F88-5B6E134B4A0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

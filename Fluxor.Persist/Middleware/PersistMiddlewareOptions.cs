@@ -1,63 +1,72 @@
-﻿using System;
+﻿using Fluxor.Persist.Storage;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fluxor.Persist.Middleware
 {
     public class PersistMiddlewareOptions
     {
-        private static readonly string mandatoryBlackList = "@routing,PersistMiddleware";
-        private string stateBlackList = mandatoryBlackList;
-        private string stateWhiteList = "";
+        private static readonly Dictionary<string, bool> _mandatoryBlackList = new Dictionary<string, bool>
+        { 
+            ["@routing"] = false,
+            [nameof(PersistMiddleware)] = false
+        };
 
-        public bool UseWhiteList
-        {
-            get
-            {
-                return StateWhiteList != "";
-            }
-        }
+        private Dictionary<string, bool> _stateBlackList = _mandatoryBlackList;
+        private Dictionary<string, bool> _stateWhiteList;
+        private bool _useInclusionApproach;
+        
 
-        public bool ShouldPersistState(string stateName)
+        public bool ShouldPersistState(IFeature feature)
         {
-            if (UseWhiteList)
-                return StateWhiteList.Split(new char[] { ',' }).Contains(stateName); // TODO:Optimize
+            if (_useInclusionApproach)
+                return (feature.GetState() is IPersistState)
+                    || _stateWhiteList.ContainsKey(feature.GetName());
             else
-                return !StateBlackList.Split(new char[] { ',' }).Contains(stateName); // TODO:Optimize
+                return !(feature.GetState() is ISkipPersistState)
+                    && !_stateBlackList.ContainsKey(feature.GetName());
         }
 
-        public string StateBlackList { 
-            get
-            {
-                return stateBlackList;
-            } 
-            set
-            {
-                stateBlackList = value;
-                if (! stateBlackList.Contains(mandatoryBlackList))
-                {
-                    if (stateBlackList == "") stateBlackList = mandatoryBlackList;
-                    else stateBlackList += "," + mandatoryBlackList;
-                }
-            }
-        }
-        public string StateWhiteList
+        public Dictionary<string, bool> StateBlackList 
         {
-            get
-            {
-                return stateWhiteList;
-            }
-            set
-            {
-                stateWhiteList = value;
-                if (stateWhiteList.Contains(mandatoryBlackList))
-                {
-                    stateWhiteList = stateWhiteList.Replace(mandatoryBlackList,""); // TODO: smarten this up
-                }
+            get => _stateBlackList;            
+            private set
+            {                
+                _stateBlackList = _mandatoryBlackList.Union(value, new ListComparer())
+                    .ToDictionary(k => k.Key, v => v.Value);
+                _useInclusionApproach = false;
+                _stateWhiteList = null;
             }
         }
 
+        public Dictionary<string, bool> StateWhiteList
+        {
+            get => _stateWhiteList;
+            private set
+            {
+                _stateWhiteList = value.Except( _mandatoryBlackList, new ListComparer())
+                    .ToDictionary(k => k.Key, v => v.Value);
+                _useInclusionApproach = true;
+                _stateBlackList = null;
+            }
+        }
+
+        public void SetBlackList(params string[] stateNames) => StateBlackList = stateNames.ToDictionary(k => k, v => true);
+        public void SetWhiteList(params string[] stateNames) => StateWhiteList = stateNames.ToDictionary(k => k, v => true);
+
+        public void UseInclusionApproach()
+        {
+            _useInclusionApproach = true;
+            _stateWhiteList ??= new();
+            _stateBlackList = null;
+        }
+
+        private class ListComparer : IEqualityComparer<KeyValuePair<string, bool>>
+        {
+            public bool Equals(KeyValuePair<string, bool> x, KeyValuePair<string, bool> y) => x.Key.Equals(y.Key);
+
+            public int GetHashCode([DisallowNull] KeyValuePair<string, bool> obj) => obj.Key.GetHashCode();
+        }
     }
 }
