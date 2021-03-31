@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUSH_PACKAGES: ${{ github.event_name == 'push' && github.ref == '/refs/heads/master'}}
-
+      GITHUB_REF: ${{ github.ref }}
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
