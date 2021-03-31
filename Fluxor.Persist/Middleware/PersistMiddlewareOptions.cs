@@ -21,10 +21,10 @@ namespace Fluxor.Persist.Middleware
         public bool ShouldPersistState(IFeature feature)
         {
             if (_useInclusionApproach)
-                return (feature.GetState() is IPersistState)
+                return feature.GetStateType().IsDefined(typeof(PersistState), false)
                     || _stateWhiteList.ContainsKey(feature.GetName());
             else
-                return !(feature.GetState() is ISkipPersistState)
+                return !feature.GetStateType().IsDefined(typeof(SkipPersistState), false)
                     && !_stateBlackList.ContainsKey(feature.GetName());
         }
 

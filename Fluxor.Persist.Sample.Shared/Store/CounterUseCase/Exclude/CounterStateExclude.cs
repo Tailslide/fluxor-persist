@@ -2,5 +2,6 @@
 
 namespace Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Exclude
 {
-    public record CounterStateExclude(int ClickCount) : ISkipPersistState;
+    [SkipPersistState]
+    public record CounterStateExclude(int ClickCount);
 }

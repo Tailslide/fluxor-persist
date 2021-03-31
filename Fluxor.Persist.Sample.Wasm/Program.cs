@@ -35,16 +35,16 @@ namespace Fluxor.Persist.Sample.Wasm
             builder.Services.AddFluxor(options => options
                 .ScanAssemblies(typeof(Program).Assembly, typeof(CounterState).Assembly)
                 //******************** UsePersist section ***********************
-                //default: will accept all except black listed feature names or states implementing ISkipPersistState;
+                //default: will accept all except black listed feature names or states with annotation [SkipPersistState];
                 //in the sample, will only persist state for CounterState and CounterStateInclude
                 //.UsePersist() 
 
-                //will look either for white listed feature names or states implementing IPersistState
+                //will look either for white listed feature names or states with annotation [PersistState]
                 //in the sample, will only persist state for CounterStateInclude
                 .UsePersist(options => options.UseInclusionApproach()) 
 
                 //setting white list will automatically switch to UseInclusionApprach
-                //in the sample, will only persist state for CounterStateInclude (has IPersistState)
+                //in the sample, will only persist state for CounterStateInclude (has [PersistState])
                 //and CounterStateExclude (in white list)
                 //.UsePersist(options =>
                 //    options.SetWhiteList("CounterExclude"))
