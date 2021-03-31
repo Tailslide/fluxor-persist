@@ -27,6 +27,6 @@ jobs:
       run: dotnet test --no-build --verbosity normal      
     - name: Pack with dotnet
       run: dotnet pack Fluxor.Persist/Fluxor.Persist.csproj --output nuget-packages --configuration Release --include-symbols
-    - name: Push with dotnet
-      if: ${{ env.PUSH_PACKAGES }}
+    - if: ${{ github.event_name == 'push' && github.ref == '/refs/heads/master'}}
+      name: Push with dotnet
       run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
