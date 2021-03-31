@@ -67,6 +67,7 @@ namespace Fluxor.Persist.Sample.Shared.Pages
                 SubscribeToAction((Action<IncrementCounterAction>)(result => PrintStateDirectly("Counter")));
                 SubscribeToAction((Action<IncrementCounterExcludeAction>)(result => PrintStateDirectly("CounterExclude")));
                 SubscribeToAction((Action<IncrementCounterIncludeAction>)(result => PrintStateDirectly("CounterInclude")));
+                StateHasChanged();
             }
             await base.OnAfterRenderAsync(firstRender);
         }
