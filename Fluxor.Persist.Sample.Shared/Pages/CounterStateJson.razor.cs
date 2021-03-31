@@ -44,9 +44,9 @@ namespace Fluxor.Persist.Sample.Shared.Pages
             Dispatcher.Dispatch(action);
         }
 
-        protected void ResetStateAndStorage()
+        protected async Task ResetStateAndStorage()
         {
-            localStorage.Clear();
+            await localStorage.ClearAsync();
             Dispatcher.Dispatch(new ResetAllStatesAction());
         }
 
@@ -60,9 +60,9 @@ namespace Fluxor.Persist.Sample.Shared.Pages
         {
             if (firstRender)
             {
-                CounterFromStore["Counter"] = localStorage.GetItemAsString("Counter");
-                CounterFromStore["CounterExclude"] = localStorage.GetItemAsString("CounterExclude");
-                CounterFromStore["CounterInclude"] = localStorage.GetItemAsString("CounterInclude");
+                CounterFromStore["Counter"] = await localStorage.GetItemAsStringAsync("Counter");
+                CounterFromStore["CounterExclude"] = await localStorage.GetItemAsStringAsync("CounterExclude");
+                CounterFromStore["CounterInclude"] = await localStorage.GetItemAsStringAsync("CounterInclude");
 
                 SubscribeToAction((Action<IncrementCounterAction>)(result => PrintStateDirectly("Counter")));
                 SubscribeToAction((Action<IncrementCounterExcludeAction>)(result => PrintStateDirectly("CounterExclude")));
@@ -73,17 +73,17 @@ namespace Fluxor.Persist.Sample.Shared.Pages
 
         private void PrintStateDirectly(string featureName)
         {
-            var timer = new Timer(new TimerCallback(_ =>
+            var timer = new Timer(new TimerCallback(async _ =>
             {
-                string json = localStorage.GetItemAsString(featureName);  // poll for localstorage changes for demo purposes.. don't poll get state directly in real applications
+                string json = await localStorage.GetItemAsStringAsync(featureName);  // poll for localstorage changes for demo purposes.. don't poll get state directly in real applications
                 if (json != CounterFromStore[featureName])
                 {
                     CounterFromStore[featureName] = json;
-                    this.StateHasChanged();
+                    await InvokeAsync(() => StateHasChanged());
                 }
             }), null, 200, 200);
         }
-  
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
