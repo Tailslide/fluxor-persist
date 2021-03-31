@@ -1,0 +1,26 @@
+﻿@using Fluxor.Blazor.Web.Components;
+@using Fluxor.Persist.Middleware;
+@using Storage;
+@inherits FluxorLayout
+
+@inject IDispatcher Dispatcher
+<div class="page">
+    <div class="main">
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+@code
+{
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.SubscribeToAction<InitializePersistMiddlewareResultSuccessAction>(result =>
+        {
+            Console.WriteLine($"**** State rehydrated**");
+            this.StateHasChanged();// we now have state, we can re-render to reflect binding changes
+        }); ;
+    }
+}

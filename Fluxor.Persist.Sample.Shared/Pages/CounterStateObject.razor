@@ -1,0 +1,31 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject NavigationManager NavManager
+@inject Fluxor.Persist.Storage.IObjectStateStorage memoryStorage
+<h1>Counter</h1>
+
+<table cellpadding="8">
+    <tr>
+        <td>(no attribute)</td>
+        <td>Current count: @CounterState.Value.ClickCount</td>
+        <td>Local storage: @CounterFromStore["Counter"]</td>
+        <td><button class="btn btn-primary" @onclick="@IncrementCount">Click me</button></td>
+    </tr>
+    <tr>
+        <td>[PersistState]</td>
+        <td>Current count: @CounterStateInclude.Value.ClickCount</td>
+        <td>Local storage: @CounterFromStore["CounterInclude"] </td>
+        <td><button class="btn btn-primary" @onclick="@IncrementCountInclude">Click me</button></td>
+    </tr>
+    <tr>
+        <td>[SkipPersistState]</td>
+        <td>Current count: @CounterStateExclude.Value.ClickCount</td>
+        <td>Local storage: @CounterFromStore["CounterExclude"] </td>
+        <td><button class="btn btn-primary" @onclick="@IncrementCountExclude">Click me</button></td>
+    </tr>
+</table>
+
+
+<button class="btn btn-primary" @onclick="@ResetStateAndStorage">Reset all states and clear local storage</button>
+<br />
+<br />
+<button class="btn btn-primary" @onclick="@ReloadPage">Reload Page and Restore from Local State</button>

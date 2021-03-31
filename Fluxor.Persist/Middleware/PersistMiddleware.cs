@@ -1,15 +1,9 @@
-﻿using Fluxor;
-//using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Reflection;
+﻿using Fluxor.Persist.Storage;
 using Microsoft.Extensions.Logging;
-using Fluxor.Persist.Storage;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 //using AngleSharp.Text;
 
 namespace Fluxor.Persist.Middleware
@@ -18,18 +12,20 @@ namespace Fluxor.Persist.Middleware
     {
         private IStore Store;
         private PersistMiddlewareOptions Options;
+        private IStoreHandler StoreHandler;
 
         ILogger<PersistMiddleware> Logger { get; set; }
         /// <summary>
         /// Creates a new instance of the middleware
         /// </summary>
-        public PersistMiddleware(PersistMiddlewareOptions options, ILogger<PersistMiddleware> logger)
+        public PersistMiddleware(PersistMiddlewareOptions options, ILogger<PersistMiddleware> logger, IStoreHandler storeHandler)
         {
             Options = options;
             Logger = logger;
+            StoreHandler = storeHandler;
         }
 
-        private IStateStorage localStorage { get; set; }
+        //private IStateStorage localStorage { get; set; }
         /// <see cref="IMiddleware.InitializeAsync(IStore)"/>
         public override async Task InitializeAsync(IStore store)
         {
@@ -40,7 +36,7 @@ namespace Fluxor.Persist.Middleware
                 string ErrMsg = "";
                 foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
                 {
-                    if (! Options.ShouldPersistState(feature.GetName()))
+                    if (! Options.ShouldPersistState(feature))
                     {
                         Logger?.LogDebug($"Don't reset {feature.GetName()} state");
                     }
@@ -71,63 +67,29 @@ namespace Fluxor.Persist.Middleware
 
             });
 
-            store.SubscribeToAction<InitializePersistMiddlewareAction>(this, async(action) =>
-            {
-                localStorage = action.StorageService;
-                if (action.RehydrateStatesFromStorage)
-                {
-                    foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
-                    {
-                        if (! Options.ShouldPersistState(feature.GetName()))
-                        {
-                            Logger?.LogDebug($"Don't persist {feature.GetName()} state");
-                        }
-                        else
-                        {
-                            Logger?.LogDebug($"Rehydrating state {feature.GetName()}");
-                            string json = await localStorage.GetStateJsonAsync(feature.GetName());
-                            if (json == null)
-                            {
-                                Logger?.LogDebug($"No saved state for {feature.GetName()}, skipping");
-                            }
-                            else
-                            {
-                                ////Logger?.LogDebug($"Deserializing type {feature.GetStateType().ToString()} from json {json}");
-                                Logger?.LogDebug($"Deserializing type {feature.GetStateType().ToString()}");
-                                try
-                                {
-                                    object stronglyTypedFeatureState = JsonSerializer.Deserialize(
-                                        json,
-                                        feature.GetStateType());
-                                    if (stronglyTypedFeatureState == null)
-                                    {
-                                        Logger?.LogError($"Deserialize returned null");
-                                    }
-                                    else
-                                        // Now set the feature's state to the deserialized object
-                                        feature.RestoreState(stronglyTypedFeatureState);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Logger?.LogError("Failed to deserialize state. Skipping. Error:" + ex.ToString());
-                                }
-                            }
-                        }
-                    }
-                }
-                //Logger?.LogDebug("Initialized Persist Middleware");
-                if (Store != null && !IsInsideMiddlewareChange)
-                    Store.Dispatch(new InitializePersistMiddlewareResultSuccessAction());
-                else
-                    Store.Dispatch(new InitializePersistMiddlewareResultFailAction());
-            });
-
             await base.InitializeAsync(store);
+            
             foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
             {
+                if (!Options.ShouldPersistState(feature))
+                {
+                    Logger?.LogDebug($"Don't persist {feature.GetName()} state");
+                    continue;
+                }
+                else 
+                {
+                    var restoredState = await StoreHandler.GetState(feature);
+                    feature.RestoreState(restoredState);
+                }
+
                 Logger?.LogDebug($"Wiring up event for feature {feature.GetName()}");
                 feature.StateChanged += Feature_StateChanged;
             }
+            //Logger?.LogDebug("Initialized Persist Middleware");
+            if (Store != null && !IsInsideMiddlewareChange)
+                Store.Dispatch(new InitializePersistMiddlewareResultSuccessAction());
+            else
+                Store.Dispatch(new InitializePersistMiddlewareResultFailAction());
         }
 
         private void Feature_StateChanged(object sender, EventArgs e)
@@ -135,24 +97,11 @@ namespace Fluxor.Persist.Middleware
             Logger?.LogDebug($"Feature_StateChanged(): sender {sender.ToString()}");
             if (sender is IFeature f)
             {
-                if (!Options.ShouldPersistState(f.GetName()))
-                {
+                if (!Options.ShouldPersistState(f))
                     Logger?.LogDebug($"Don't persist {f.GetName()} state");
-                }
                 else
-                {
-                    var state = f.GetState();
-                    //Logger?.LogDebug($"Storing Feature State:{state.ToString()}");
-                    var options = new JsonSerializerOptions
-                    {
-                        WriteIndented = true,
-                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-                    };
-                    string serializedState = JsonSerializer.Serialize(state, options);
-                    localStorage.StoreStateJsonAsync(f.GetName(), serializedState);
-                }
+                    StoreHandler.SetState(f);
             }
         }
-
     }
 }

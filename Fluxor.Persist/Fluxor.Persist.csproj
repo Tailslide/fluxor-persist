@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Description>Persists fluxor packages</Description>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Authors>Greg Pringle</Authors>
     <Company>Firelight Software, Inc.</Company>
     <Product />

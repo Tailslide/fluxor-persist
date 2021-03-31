@@ -9,11 +9,6 @@ namespace Fluxor.Persist.Middleware
     public static class Reducers
     {
         [ReducerMethod]
-        public static PersistMiddlewareState ReduceInitializePersistMiddlewareAction(PersistMiddlewareState state, InitializePersistMiddlewareAction action) =>
-        state with { Status = InitializationStatus.INITIALIZING }; //immutable
-
-
-        [ReducerMethod]
         public static PersistMiddlewareState ReduceInitializePersistMiddlewareResultSuccessAction(PersistMiddlewareState state, InitializePersistMiddlewareResultSuccessAction action) =>
         state with { Status= InitializationStatus.SUCCEEDED  }; //immutable
 
