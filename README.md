@@ -22,19 +22,19 @@ To add Fluxor-persist to your existing blazor fluxor application you want to:
 
 - Add a NuGet package reference to `Fluxor.Persist`
 - Add `.UsePersist()` in Program.cs when building your existing Fluxor service with `AddFluxor()`
-- Make a class that implements `IStateStorage` to persist your state however you want. It just needs to be able to save and retrieve a string / string key value pair.
-- Override `OnInitialized` in your MainLayout to initialize your storage:
+- Make a class that implements `IStringStateStorage` to persist your state however you want. It just needs to be able to save and retrieve a string / string key value pair. You can alternative implement `IObjectStateStorage` if you need to persist using the state objects directly.
+- Add the following to your Program.cs to register both your state storage and the default persists json store handler:
+```
+builder.Services.AddScoped<IStringStateStorage, LocalStateStorage>();
+builder.Services.AddScoped<IStoreHandler, JsonStoreHandler>();
+```
 
-    ```C#
-    Dispatcher.Dispatch(new InitializePersistMiddlewareAction() { StorageService = new LocalStateStorage(this.localStorage), RehydrateStatesFromStorage = true });
-    ```
     
 ### Detecting Rehydrate
 
 You can detect that state has been rehydrated from storage. I use this in my MainLayout which inherits from FluxorLayout. In `OnInitialized` after I intialize the middleware to detect state restore and force a refresh:
 
 ```C#
-        Dispatcher.Dispatch(new InitializePersistMiddlewareAction() { StorageService = new LocalStateStorage(this.localStorage), RehydrateStatesFromStorage = true });
         this.SubscribeToAction<InitializePersistMiddlewareResultSuccessAction>(result =>
         {
             Console.WriteLine($"**** State rehydrated**");
@@ -83,6 +83,10 @@ Regardless of settings, the states @routing and PersistMiddleware are never pers
 
 Example: `.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
 
+### Advanced Usage - IPersist, ISkipPersist
+
+Similarly, you can mark state classes to persit or not with `[IPersist]` and `[ISkipPersist]` attributes.
+States can be not persisted by default by initializing with `.UsePersist(options => options.UseInclusionApproach())`
 
 ### Advanced Usage - Persist only some state properties
 
@@ -100,3 +104,19 @@ To not persist a 'isloading' flag for example:
     }
 ```
 
+### BREAKING CHANGES IN 1.09
+
+To convert from using persists pre-1.09 to 1.09+, you need the following changes:
+
+This line can be removed from MainLayout and is no longer required:
+
+`Dispatcher.Dispatch(new InitializePersistMiddlewareAction() { StorageService = new LocalStateStorage(this.localStorage), RehydrateStatesFromStorage=true });`
+
+Your storage class that implements `IStateStorage` needs to change to use `IStringStateStorage`
+
+The following two lines need to be added to Program.cs to register the default JSON handler and also your local storage class:
+
+```c#
+builder.Services.AddScoped<IStringStateStorage, LocalStateStorage>();
+builder.Services.AddScoped<IStoreHandler, JsonStoreHandler>();
+```
