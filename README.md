@@ -81,7 +81,16 @@ namespace Fluxor.Persist.Sample.Storage
 You can blacklist or whitelist state names to indicate if they should be persisted. Use only a blacklist or a whitelist not both.
 Regardless of settings, the states @routing and PersistMiddleware are never persisted.
 
-Example: `.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
+Examples: 
+
+```c#
+.UsePersist(x => x.SetBlackList(new string[] { "mystate1", "mystate2" }))
+```
+
+```c#
+.UsePersist(options => options.UseInclusionApproach())
+.UsePersist(x => x.SetWhiteList(new string[] { "mystate1", "mystate2" }))
+```
 
 ### Advanced Usage - IPersist, ISkipPersist
 
@@ -120,3 +129,12 @@ The following two lines need to be added to Program.cs to register the default J
 builder.Services.AddScoped<IStringStateStorage, LocalStateStorage>();
 builder.Services.AddScoped<IStoreHandler, JsonStoreHandler>();
 ```
+
+If you have a whitelist or a blacklist the method changed for setting them from:
+
+`.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
+
+to
+
+`.UsePersist(x => x.SetBlackList(new string[] { "mystate1", "mystate2" }))`
+
