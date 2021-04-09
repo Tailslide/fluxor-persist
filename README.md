@@ -52,7 +52,7 @@ using System.Threading.Tasks;
 
 namespace Fluxor.Persist.Sample.Storage
 {
-    public class LocalStateStorage :IStateStorage
+    public class LocalStateStorage :IStringStateStorage
     {
 
         private ILocalStorageService LocalStorage { get; set; }
