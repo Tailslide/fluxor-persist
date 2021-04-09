@@ -92,9 +92,9 @@ Examples:
 .UsePersist(x => x.SetWhiteList(new string[] { "mystate1", "mystate2" }))
 ```
 
-### Advanced Usage - IPersist, ISkipPersist
+### Advanced Usage - Persist, SkipPersist
 
-Similarly, you can mark state classes to persit or not with `[IPersist]` and `[ISkipPersist]` attributes.
+Similarly, you can mark state classes to persit or not with `[Persist]` and `[SkipPersist]` attributes.
 States can be not persisted by default by initializing with `.UsePersist(options => options.UseInclusionApproach())`
 
 ### Advanced Usage - Persist only some state properties
