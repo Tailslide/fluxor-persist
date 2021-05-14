@@ -52,7 +52,7 @@ using System.Threading.Tasks;
 
 namespace Fluxor.Persist.Sample.Storage
 {
-    public class LocalStateStorage :IStateStorage
+    public class LocalStateStorage :IStringStateStorage
     {
 
         private ILocalStorageService LocalStorage { get; set; }
@@ -81,11 +81,20 @@ namespace Fluxor.Persist.Sample.Storage
 You can blacklist or whitelist state names to indicate if they should be persisted. Use only a blacklist or a whitelist not both.
 Regardless of settings, the states @routing and PersistMiddleware are never persisted.
 
-Example: `.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
+Examples: 
 
-### Advanced Usage - IPersist, ISkipPersist
+```c#
+.UsePersist(x => x.SetBlackList(new string[] { "mystate1", "mystate2" }))
+```
 
-Similarly, you can mark state classes to persit or not with `[IPersist]` and `[ISkipPersist]` attributes.
+```c#
+.UsePersist(options => options.UseInclusionApproach())
+.UsePersist(x => x.SetWhiteList(new string[] { "mystate1", "mystate2" }))
+```
+
+### Advanced Usage - Persist, SkipPersist
+
+Similarly, you can mark state classes to persit or not with `[Persist]` and `[SkipPersist]` attributes.
 States can be not persisted by default by initializing with `.UsePersist(options => options.UseInclusionApproach())`
 
 ### Advanced Usage - Persist only some state properties
@@ -120,6 +129,15 @@ The following two lines need to be added to Program.cs to register the default J
 builder.Services.AddScoped<IStringStateStorage, LocalStateStorage>();
 builder.Services.AddScoped<IStoreHandler, JsonStoreHandler>();
 ```
+
+If you have a whitelist or a blacklist the method changed for setting them from:
+
+`.UsePersist(x => x.StateBlackList= "mystate1,mystate2")`
+
+to
+
+`.UsePersist(x => x.SetBlackList(new string[] { "mystate1", "mystate2" }))`
+
 
 ### BREAKING DEPENDENCY For Sample Project - Blazored.LocalStorage V4.0
 
