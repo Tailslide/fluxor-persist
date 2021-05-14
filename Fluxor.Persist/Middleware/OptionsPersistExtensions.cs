@@ -6,7 +6,7 @@ namespace Fluxor.Persist.Middleware
 {
 	public static class OptionsPersistExtensions
 	{
-		public static Options UsePersist(this Options options, Action<PersistMiddlewareOptions> persistMiddlewareOptions = null)
+		public static FluxorOptions UsePersist(this FluxorOptions options, Action<PersistMiddlewareOptions> persistMiddlewareOptions = null)
 		{
 			var middlewareOptions = new PersistMiddlewareOptions();
 			persistMiddlewareOptions?.Invoke(middlewareOptions);

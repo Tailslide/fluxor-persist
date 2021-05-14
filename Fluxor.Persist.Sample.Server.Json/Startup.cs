@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
 namespace Fluxor.Persist.Sample.Server.Json
 {
@@ -28,7 +29,18 @@ namespace Fluxor.Persist.Sample.Server.Json
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddBlazoredLocalStorage(config => config.JsonSerializerOptions.WriteIndented = false);
+            //services.AddBlazoredLocalStorage(config => config.JsonSerializerOptions.WriteIndented = false);
+            services.AddBlazoredLocalStorage(config =>
+            {
+                config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                config.JsonSerializerOptions.IgnoreNullValues = true;
+                config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+                config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+                config.JsonSerializerOptions.WriteIndented = false;
+            }
+            );
             services.AddScoped<IStringStateStorage, LocalStateStorage>();
             services.AddScoped<IStoreHandler, JsonStoreHandler>();
 

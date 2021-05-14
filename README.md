@@ -120,3 +120,10 @@ The following two lines need to be added to Program.cs to register the default J
 builder.Services.AddScoped<IStringStateStorage, LocalStateStorage>();
 builder.Services.AddScoped<IStoreHandler, JsonStoreHandler>();
 ```
+
+### BREAKING DEPENDENCY For Sample Project - Blazored.LocalStorage V4.0
+
+Looks like there is a new version of Blazored.Localstorage that has an issue that affects the sample project:
+https://github.com/Blazored/LocalStorage/issues/140
+
+I reccomend sticking with Blazored.Localstorage V3.0 until it gets addressed.
