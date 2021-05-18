@@ -144,4 +144,7 @@ to
 Looks like there is a new version of Blazored.Localstorage that has an issue that affects the sample project:
 https://github.com/Blazored/LocalStorage/issues/140
 
-I reccomend sticking with Blazored.Localstorage V3.0 until it gets addressed.
+If you use Blazored.LocalStorage V4.1.1 + you will need to change your LocalStateStorage.cs class to use ```SetItemAsStringAsync``` instead of  ```SetItemAsStringAsync```.
+You will also need to clear localstorage as your states have been corrupted if you upgraded the nuget without making this change.
+
+I updated the sample app to use this new method.

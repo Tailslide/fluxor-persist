@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/Tailslide/fluxor-persist</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/Tailslide/fluxor-persist/master/Fluxor.Persist/Icons/FancyP2.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Tailslide/fluxor-persist</RepositoryUrl>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
   </PropertyGroup>

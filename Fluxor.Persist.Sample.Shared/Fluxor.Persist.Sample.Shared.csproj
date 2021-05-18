@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.1.1" />
     <PackageReference Include="Fluxor.Blazor.Web" Version="4.1.0" />
     <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.6" />
