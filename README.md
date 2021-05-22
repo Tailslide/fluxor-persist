@@ -69,7 +69,7 @@ namespace Fluxor.Persist.Sample.Storage
 
         public async ValueTask StoreStateJsonAsync(string statename, string json)
         {
-            await LocalStorage.SetItemAsync(statename, json);
+            await LocalStorage.SetItemAsStringAsync(statename, json);
         }
     }
 }
