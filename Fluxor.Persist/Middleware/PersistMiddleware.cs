@@ -27,7 +27,7 @@ namespace Fluxor.Persist.Middleware
 
         //private IStateStorage localStorage { get; set; }
         /// <see cref="IMiddleware.InitializeAsync(IStore)"/>
-        public override async Task InitializeAsync(IStore store)
+        public override async Task InitializeAsync(IDispatcher dispatcher, IStore store)
         {
             Store = store;
 
@@ -61,13 +61,13 @@ namespace Fluxor.Persist.Middleware
                     }
                 }
                 if (ErrMsg == "")
-                    Store.Dispatch(new ResetAllStatesResultSuccessAction());
+                    dispatcher.Dispatch(new ResetAllStatesResultSuccessAction());
                 else
-                    Store.Dispatch(new ResetAllStatesResultFailAction() { ErrorMessage = ErrMsg });
+                    dispatcher.Dispatch(new ResetAllStatesResultFailAction() { ErrorMessage = ErrMsg });
 
             });
 
-            await base.InitializeAsync(store);
+            await base.InitializeAsync(dispatcher, store);
             
             foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
             {
@@ -87,9 +87,9 @@ namespace Fluxor.Persist.Middleware
             }
             //Logger?.LogDebug("Initialized Persist Middleware");
             if (Store != null && !IsInsideMiddlewareChange)
-                Store.Dispatch(new InitializePersistMiddlewareResultSuccessAction());
+                dispatcher.Dispatch(new InitializePersistMiddlewareResultSuccessAction());
             else
-                Store.Dispatch(new InitializePersistMiddlewareResultFailAction());
+                dispatcher.Dispatch(new InitializePersistMiddlewareResultFailAction());
         }
 
         private void Feature_StateChanged(object sender, EventArgs e)

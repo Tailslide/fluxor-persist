@@ -74,13 +74,21 @@ namespace Fluxor.Persist.Sample.Shared.Pages
 
         private void PrintStateDirectly(string featureName)
         {
+
             var timer = new Timer(new TimerCallback(async _ =>
             {
-                string json = await localStorage.GetItemAsStringAsync(featureName);  // poll for localstorage changes for demo purposes.. don't poll get state directly in real applications
-                if (json != CounterFromStore[featureName])
+                try
                 {
-                    CounterFromStore[featureName] = json;
-                    await InvokeAsync(() => StateHasChanged());
+                    string json = await localStorage.GetItemAsStringAsync(featureName);  // poll for localstorage changes for demo purposes.. don't poll get state directly in real applications
+                    if (json != CounterFromStore[featureName])
+                    {
+                        CounterFromStore[featureName] = json;
+                        await InvokeAsync(() => StateHasChanged());
+                    }
+                }
+                catch (Microsoft.JSInterop.JSDisconnectedException ex)
+                {
+                    /// Started in .NET 6 .. ignore ?? https://github.com/dotnet/aspnetcore/issues/38822
                 }
             }), null, 200, 200);
         }
