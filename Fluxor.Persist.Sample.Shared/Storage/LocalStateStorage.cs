@@ -14,12 +14,12 @@ namespace Fluxor.Persist.Sample.Shared.Storage
             LocalStorage = localStorage;
         }
 
-        public async ValueTask<string> GetStateJsonAsync(string statename)
+        public async Task<string> GetStateJsonAsync(string statename)
         {
             return await LocalStorage.GetItemAsStringAsync(statename);
         }
 
-        public async ValueTask StoreStateJsonAsync(string statename, string json)
+        public async Task StoreStateJsonAsync(string statename, string json)
         {
             await LocalStorage.SetItemAsStringAsync(statename, json);
         }

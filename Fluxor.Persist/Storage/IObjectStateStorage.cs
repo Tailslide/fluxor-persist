@@ -4,7 +4,7 @@ namespace Fluxor.Persist.Storage
 {
     public interface IObjectStateStorage
     {
-        public ValueTask<object> GetStateAsync(string statename);
-        public ValueTask StoreStateAsync(string statename, object state);
+        public Task<object> GetStateAsync(string statename);
+        public Task StoreStateAsync(string statename, object state);
     }
 }

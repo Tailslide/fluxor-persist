@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Persists fluxor packages</Description>
     <Version>2.0.0</Version>
     <Authors>Greg Pringle</Authors>
@@ -13,7 +13,9 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
   </PropertyGroup>
-
+	<PropertyGroup>
+		<LangVersion>9.0</LangVersion>
+	</PropertyGroup>
   <ItemGroup>
     <Compile Remove="ExampleJsInterop.cs" />
   </ItemGroup>
@@ -38,6 +40,7 @@
   <ItemGroup>
     <PackageReference Include="Fluxor" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.2" />
   </ItemGroup>
 
 </Project>

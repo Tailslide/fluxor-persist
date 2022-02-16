@@ -66,7 +66,7 @@ namespace Fluxor.Persist.Middleware
         {
             public bool Equals(KeyValuePair<string, bool> x, KeyValuePair<string, bool> y) => x.Key.Equals(y.Key);
 
-            public int GetHashCode([DisallowNull] KeyValuePair<string, bool> obj) => obj.Key.GetHashCode();
+            public int GetHashCode( KeyValuePair<string, bool> obj) => !obj.Equals(default(KeyValuePair<string, bool>)) ? obj.Key.GetHashCode():int.MinValue;
         }
     }
 }
