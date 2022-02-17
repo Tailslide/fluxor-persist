@@ -10,19 +10,19 @@ namespace Fluxor.Persist.Sample.Shared.Storage
 
         public void ClearStore() => _store.Clear();
 
-        public Task<object> GetStateAsync(string statename)
+        public ValueTask<object> GetStateAsync(string statename)
         {
             if (_store.ContainsKey(statename))
-                return Task.FromResult(_store[statename]);
+                return ValueTask.FromResult(_store[statename]);
             return default;
         }
 
-        public Task StoreStateAsync(string statename, object state)
+        public ValueTask StoreStateAsync(string statename, object state)
         {
             if (_store.ContainsKey(statename))
                 _store.TryRemove(statename, out _);
             _store.TryAdd(statename, state);
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }
