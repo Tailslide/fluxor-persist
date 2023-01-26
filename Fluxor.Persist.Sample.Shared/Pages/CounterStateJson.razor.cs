@@ -3,6 +3,7 @@ using Fluxor.Persist.Middleware;
 using Fluxor.Persist.Sample.Shared.Store.CounterUseCase;
 using Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Exclude;
 using Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Include;
+using Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Priority;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Fluxor.Persist.Sample.Shared.Pages
         [Inject] private IState<CounterState> CounterState { get; set; }
         [Inject] private IState<CounterStateExclude> CounterStateExclude { get; set; }
         [Inject] private IState<CounterStateInclude> CounterStateInclude { get; set; }
+        [Inject] private IState<CounterStatePriority> CounterStatePriority { get; set; }
 
         [Inject] public IDispatcher Dispatcher { get; set; }
 
@@ -23,7 +25,8 @@ namespace Fluxor.Persist.Sample.Shared.Pages
         { 
             ["Counter"] = "",
             ["CounterExclude"] = "",
-            ["CounterInclude"] = ""
+            ["CounterInclude"] = "",
+            ["CounterPriority"] = "",
         };        
 
         private void IncrementCount()
@@ -42,6 +45,11 @@ namespace Fluxor.Persist.Sample.Shared.Pages
         {
             var action = new IncrementCounterIncludeAction();
             Dispatcher.Dispatch(action);
+        }
+
+        private void IncrementCountPriority()
+        {
+            Dispatcher.Dispatch(new IncrementCounterPriorityAction());
         }
 
         protected async Task ResetStateAndStorage()

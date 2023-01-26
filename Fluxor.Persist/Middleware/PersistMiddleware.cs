@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+
 //using AngleSharp.Text;
 
 namespace Fluxor.Persist.Middleware
@@ -33,8 +34,8 @@ namespace Fluxor.Persist.Middleware
 
             store.SubscribeToAction<ResetAllStatesAction>(this,action =>
             {
-                string ErrMsg = "";
-                foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
+                var ErrMsg = "";
+                foreach (var feature in Store.Features.Values.OrderBy(x => x.GetName()))
                 {
                     if (! Options.ShouldPersistState(feature))
                     {
@@ -68,19 +69,25 @@ namespace Fluxor.Persist.Middleware
             });
 
             await base.InitializeAsync(dispatcher, store);
-            
-            foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
+
+            Console.WriteLine("Restoring state for features");
+            foreach (var feature in Store.Features.Values
+                         .OrderBy(f => f
+                             .GetStateType()
+                             .GetCustomAttributes<PriorityLoad>(true)
+                             .FirstOrDefault()?.Level ?? ushort.MaxValue)
+                         .ThenBy(x=>x.GetName()))
             {
                 if (!Options.ShouldPersistState(feature))
                 {
+                    Console.WriteLine($"Skipping feature: {feature.GetName()}");
                     Logger?.LogDebug($"Don't persist {feature.GetName()} state");
                     continue;
                 }
-                else 
-                {
-                    var restoredState = await StoreHandler.GetState(feature);
-                    feature.RestoreState(restoredState);
-                }
+
+                Console.WriteLine($"Restoring feature: {feature.GetName()}");
+                var restoredState = await StoreHandler.GetState(feature);
+                feature.RestoreState(restoredState);
 
                 Logger?.LogDebug($"Wiring up event for feature {feature.GetName()}");
                 feature.StateChanged += Feature_StateChanged;
@@ -95,13 +102,12 @@ namespace Fluxor.Persist.Middleware
         private void Feature_StateChanged(object sender, EventArgs e)
         {
             Logger?.LogDebug($"Feature_StateChanged(): sender {sender.ToString()}");
-            if (sender is IFeature f)
-            {
-                if (!Options.ShouldPersistState(f))
-                    Logger?.LogDebug($"Don't persist {f.GetName()} state");
-                else
-                    StoreHandler.SetState(f);
-            }
+            if (sender is not IFeature f) return;
+            
+            if (!Options.ShouldPersistState(f))
+                Logger?.LogDebug($"Don't persist {f.GetName()} state");
+            else
+                StoreHandler.SetState(f);
         }
     }
 }

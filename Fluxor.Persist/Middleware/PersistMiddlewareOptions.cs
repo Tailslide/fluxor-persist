@@ -17,7 +17,6 @@ namespace Fluxor.Persist.Middleware
         private Dictionary<string, bool> _stateWhiteList;
         private bool _useInclusionApproach;
         
-
         public bool ShouldPersistState(IFeature feature)
         {
             if (_useInclusionApproach)
