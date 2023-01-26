@@ -1,9 +1,8 @@
-﻿namespace Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Include
+﻿namespace Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Include;
+
+public class Feature : Feature<CounterStateInclude>
 {
-    public class Feature : Feature<CounterStateInclude>
-    {
-        public override string GetName() => "CounterInclude";
-        protected override CounterStateInclude GetInitialState() =>
-            new CounterStateInclude(0);
-    }
+    public override string GetName() => "CounterInclude";
+    protected override CounterStateInclude GetInitialState() =>
+        new CounterStateInclude(0);
 }

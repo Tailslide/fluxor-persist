@@ -2,6 +2,6 @@
 
 namespace Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Include
 {
-    [PersistState]
+    [PersistState, PriorityLoad]
     public record CounterStateInclude(int ClickCount);
 }

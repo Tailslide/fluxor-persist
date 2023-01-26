@@ -1,4 +1,5 @@
-﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+﻿@using Fluxor.Persist.Sample.Shared.Store.CounterUseCase.Priority
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject NavigationManager NavManager
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 <h1>Counter</h1>
@@ -21,6 +22,12 @@
         <td>Current count: @CounterStateExclude.Value.ClickCount</td>
         <td>Local storage: @CounterFromStore["CounterExclude"] </td>
         <td><button class="btn btn-primary" @onclick="@IncrementCountExclude">Click me</button></td>
+    </tr>
+    <tr>
+        <td>[PriorityLoadState]</td>
+        <td>Current count: @CounterStatePriority.Value.ClickCount</td>
+        <td>Local storage: @CounterFromStore["CounterPriority"] </td>
+        <td><button class="btn btn-primary" @onclick="@IncrementCountPriority">Click me</button></td>
     </tr>
 </table>
 
