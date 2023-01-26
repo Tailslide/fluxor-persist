@@ -2,7 +2,7 @@
   <PropertyGroup>
     
     <Description>Persists fluxor packages</Description>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <Authors>Greg Pringle</Authors>
     <Company>Firelight Software, Inc.</Company>
     <Product />
@@ -14,10 +14,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
   </PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
 	</PropertyGroup>
 	<PropertyGroup>
-		<LangVersion>9.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 	</PropertyGroup>
   <ItemGroup>
     <Compile Remove="ExampleJsInterop.cs" />
@@ -41,12 +41,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxor" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Fluxor" Version="5.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
   </ItemGroup>
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-		<PackageReference Include="System.Text.Json" Version="6.0.2" />
+		<PackageReference Include="System.Text.Json" Version="7.0.1" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+	  <PackageReference Include="Blazored.LocalStorage">
+	    <Version>4.3.0</Version>
+	  </PackageReference>
 	</ItemGroup>
 
 </Project>
