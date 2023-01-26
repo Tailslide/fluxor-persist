@@ -2,7 +2,7 @@
   <PropertyGroup>
     
     <Description>Persists fluxor packages</Description>
-    <Version>2.3.0</Version>
+    <Version>2.4.0</Version>
     <Authors>Greg Pringle</Authors>
     <Company>Firelight Software, Inc.</Company>
     <Product />
