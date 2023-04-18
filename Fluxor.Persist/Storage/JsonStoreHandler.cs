@@ -44,7 +44,7 @@ namespace Fluxor.Persist.Storage
                 }
                 catch (Exception ex)
                 {
-                    Logger?.LogError("Failed to deserialize state. Skipping. Error:" + ex.ToString());
+                    Logger?.LogError(ex, "Failed to deserialize state. Skipping.");
                 }
             }
             return feature.GetState(); //get initial state
@@ -52,14 +52,20 @@ namespace Fluxor.Persist.Storage
 
         public async Task SetState(IFeature feature)
         {
-            var state = feature.GetState();
-            var options = new JsonSerializerOptions
+            try 
             {
-                WriteIndented = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
-            string serializedState = JsonSerializer.Serialize(state, options);
-            await LocalStorage.StoreStateJsonAsync(feature.GetName(), serializedState);
+                var state = feature.GetState();
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                };
+                string serializedState = JsonSerializer.Serialize(state, options);
+                await LocalStorage.StoreStateJsonAsync(feature.GetName(), serializedState); }
+            catch (Exception e)
+            {
+                Logger?.LogError(e, "Failed to serialize state. Skipping.");
+            }
         }
     }
 }
