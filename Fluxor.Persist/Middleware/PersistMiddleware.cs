@@ -70,7 +70,7 @@ namespace Fluxor.Persist.Middleware
 
             await base.InitializeAsync(dispatcher, store);
 
-            Console.WriteLine("Restoring state for features");
+            Logger?.LogDebug("Restoring state for features");
             foreach (var feature in Store.Features.Values
                          .OrderBy(f => f
                              .GetStateType()
@@ -80,12 +80,11 @@ namespace Fluxor.Persist.Middleware
             {
                 if (!Options.ShouldPersistState(feature))
                 {
-                    Console.WriteLine($"Skipping feature: {feature.GetName()}");
                     Logger?.LogDebug($"Don't persist {feature.GetName()} state");
                     continue;
                 }
 
-                Console.WriteLine($"Restoring feature: {feature.GetName()}");
+                Logger?.LogDebug($"Restoring feature: {feature.GetName()}");
                 var restoredState = await StoreHandler.GetState(feature);
                 feature.RestoreState(restoredState);
 
