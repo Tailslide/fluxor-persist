@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Fluxor.Blazor.Web.ReduxDevTools;
 
 namespace Fluxor.Persist.Sample.Wasm
 {

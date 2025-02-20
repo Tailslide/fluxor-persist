@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Fluxor;
+using Fluxor.Blazor.Web.ReduxDevTools;
 using Fluxor.Persist.Middleware;
 using Fluxor.Persist.Sample.Shared.Storage;
 using Fluxor.Persist.Sample.Shared.Store.CounterUseCase;
