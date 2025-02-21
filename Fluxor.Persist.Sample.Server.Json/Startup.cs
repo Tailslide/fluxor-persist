@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json;
+using Fluxor.Blazor.Web.ReduxDevTools;
 
 namespace Fluxor.Persist.Sample.Server.Json
 {

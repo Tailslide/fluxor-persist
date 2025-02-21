@@ -14,7 +14,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
   </PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
+		<TargetFramework>net9.0</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup>
 		<LangVersion>11.0</LangVersion>
@@ -41,12 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxor" Version="5.9.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Include="Fluxor" Version="6.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
   </ItemGroup>
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-		<PackageReference Include="System.Text.Json" Version="7.0.3" />
+		<PackageReference Include="System.Text.Json" Version="9.0.2" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
 	  <PackageReference Include="Blazored.LocalStorage">
