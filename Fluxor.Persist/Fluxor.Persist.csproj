@@ -2,7 +2,7 @@
   <PropertyGroup>
     
     <Description>Persists fluxor packages</Description>
-    <Version>3.0.0</Version>
+    <Version>3.1.0</Version>
     <Authors>Greg Pringle</Authors>
     <Company>Firelight Software, Inc.</Company>
     <Product />
@@ -14,7 +14,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
   </PropertyGroup>
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFrameworks>net9.0;net8.0</TargetFrameworks>
 	</PropertyGroup>
 	<PropertyGroup>
 		<LangVersion>11.0</LangVersion>
@@ -42,7 +42,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fluxor" Version="6.6.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
   </ItemGroup>
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<PackageReference Include="System.Text.Json" Version="9.0.2" />

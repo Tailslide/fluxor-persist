@@ -94,7 +94,7 @@ namespace Fluxor.Persist.Sample.Shared.Pages
                         await InvokeAsync(() => StateHasChanged());
                     }
                 }
-                catch (Microsoft.JSInterop.JSDisconnectedException ex)
+                catch (Microsoft.JSInterop.JSDisconnectedException )
                 {
                     /// Started in .NET 6 .. ignore ?? https://github.com/dotnet/aspnetcore/issues/38822
                 }
